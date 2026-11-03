@@ -9,6 +9,7 @@ export type TaskState = {
   tasks: Task[]
   addTask: (title: string) => void
   toggleTask: (id: string) => void
+  clearCompleted: () => void
   deleteTask: (id: string) => void
   renameTask: (id: string, title: string) => void
 }
@@ -22,6 +23,7 @@ export const useTaskStore = create<TaskState>()(
         set((state) => ({
           tasks: state.tasks.map((task) => (task.id === id ? { ...task, completed: !task.completed } : task)),
         })),
+      clearCompleted: () => set((state) => ({ tasks: state.tasks.filter((task) => !task.completed) })),
       deleteTask: (id) => set((state) => ({ tasks: state.tasks.filter((task) => task.id !== id) })),
       renameTask: (id, title) =>
         set((state) => ({
