@@ -73,7 +73,6 @@ src/
 ## Pull requests
 
 - One `TODO.md` item per PR, branch `todo/<id>-<short-slug>` (e.g. `todo/t1-delete-task`), based on `main`.
-- Do not edit `TODO.md` in feature PRs: progress is tracked by the PRs themselves.
 - PR title: `T1: Delete a task`. PR description in English: what changed, how to try it, what the tests cover, decisions and trade-offs.
 
 ## Language
