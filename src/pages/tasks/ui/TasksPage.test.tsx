@@ -3,11 +3,13 @@ import userEvent from '@testing-library/user-event'
 import { withNuqsTestingAdapter } from 'nuqs/adapters/testing'
 import { beforeEach, describe, expect, it } from 'vitest'
 import { useTaskStore } from '@/entities/task/model/taskStore'
+import { useThemeStore } from '@/features/toggle-theme/model/themeStore'
 import { TasksPage } from '@/pages/tasks/ui/TasksPage'
 
 describe('TasksPage', () => {
   beforeEach(() => {
     useTaskStore.setState({ tasks: [] })
+    useThemeStore.setState({ theme: null })
   })
 
   it('adds a task, shows it in the list and updates the summary when toggled', async () => {
@@ -126,5 +128,14 @@ describe('TasksPage', () => {
     await user.click(screen.getByRole('button', { name: 'Delete "First task"' }))
 
     expect(screen.getByRole('heading', { name: 'No tasks yet' })).toBeInTheDocument()
+  })
+
+  it('switches between light and dark themes from the header', async () => {
+    const user = userEvent.setup()
+    render(<TasksPage />, { wrapper: withNuqsTestingAdapter() })
+
+    await user.click(screen.getByRole('button', { name: 'Switch to dark theme' }))
+
+    expect(screen.getByRole('button', { name: 'Switch to light theme' })).toBeInTheDocument()
   })
 })

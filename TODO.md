@@ -12,7 +12,7 @@ You can tick `[x]` manually after merging, but the agent tracks progress by PRs 
 - [x] T4: Inline editing — double-clicking a title opens an input; Enter saves, Escape cancels; same validation as on create (move the shared schema to `entities/task`).
 - [x] T5: "Clear completed" — a button in the footer, visible only when there are completed tasks; removes all of them.
 - [x] T6: Empty state — when there are no tasks, show an icon, a heading and a hint to add the first task instead of an empty list.
-- [ ] T7: Dark mode — a Sun/Moon toggle in the header, `.dark` class on `<html>`; defaults to `prefers-color-scheme`; the tokens already exist in `index.css`.
+- [x] T7: Dark mode — a Sun/Moon toggle in the header, `.dark` class on `<html>`; defaults to `prefers-color-scheme`; the tokens already exist in `index.css`.
 - [ ] T8: i18n — i18next + react-i18next, uk and en, a language switcher, no hardcoded text in components.
 - [ ] T9: Due dates — an optional date when creating a task, formatted with date-fns using the current locale, overdue tasks highlighted with the `destructive` token.
 - [ ] T10: Playwright e2e smoke test — add a task and mark it completed; `pnpm test:e2e` script.
