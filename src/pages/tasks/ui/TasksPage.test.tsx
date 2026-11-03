@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { withNuqsTestingAdapter } from 'nuqs/adapters/testing'
 import { beforeEach, describe, expect, it } from 'vitest'
 import { useTaskStore } from '@/entities/task/model/taskStore'
 import { TasksPage } from '@/pages/tasks/ui/TasksPage'
@@ -11,7 +12,7 @@ describe('TasksPage', () => {
 
   it('adds a task, shows it in the list and updates the summary when toggled', async () => {
     const user = userEvent.setup()
-    render(<TasksPage />)
+    render(<TasksPage />, { wrapper: withNuqsTestingAdapter() })
 
     await user.type(screen.getByRole('textbox', { name: 'Task title' }), 'Ship the playground')
     await user.click(screen.getByRole('button', { name: 'Add' }))
@@ -26,7 +27,7 @@ describe('TasksPage', () => {
 
   it('deletes a task from the list and updates the summary', async () => {
     const user = userEvent.setup()
-    render(<TasksPage />)
+    render(<TasksPage />, { wrapper: withNuqsTestingAdapter() })
 
     await user.type(screen.getByRole('textbox', { name: 'Task title' }), 'Keep me')
     await user.click(screen.getByRole('button', { name: 'Add' }))
@@ -39,5 +40,40 @@ describe('TasksPage', () => {
     expect(list).not.toHaveTextContent('Remove me')
     expect(list).toHaveTextContent('Keep me')
     expect(screen.getByText('1 active of 1')).toBeInTheDocument()
+  })
+
+  it('filters the list by the selected tab', async () => {
+    const user = userEvent.setup()
+    useTaskStore.setState({
+      tasks: [
+        { id: '1', title: 'Buy milk', completed: false, createdAt: 1 },
+        { id: '2', title: 'Walk the dog', completed: true, createdAt: 2 },
+      ],
+    })
+    render(<TasksPage />, { wrapper: withNuqsTestingAdapter() })
+    const list = screen.getByRole('list', { name: 'Tasks' })
+
+    await user.click(screen.getByRole('tab', { name: 'Active' }))
+    expect(list).toHaveTextContent('Buy milk')
+    expect(list).not.toHaveTextContent('Walk the dog')
+
+    await user.click(screen.getByRole('tab', { name: 'Completed' }))
+    expect(list).not.toHaveTextContent('Buy milk')
+    expect(list).toHaveTextContent('Walk the dog')
+
+    await user.click(screen.getByRole('tab', { name: 'All' }))
+    expect(list).toHaveTextContent('Buy milk')
+    expect(list).toHaveTextContent('Walk the dog')
+  })
+
+  it('applies the filter from the URL and hides a task once it no longer matches', async () => {
+    const user = userEvent.setup()
+    useTaskStore.setState({ tasks: [{ id: '1', title: 'Buy milk', completed: false, createdAt: 1 }] })
+    render(<TasksPage />, { wrapper: withNuqsTestingAdapter({ searchParams: '?filter=active' }) })
+
+    await user.click(screen.getByRole('checkbox', { name: 'Mark "Buy milk" as completed' }))
+
+    expect(screen.getByRole('list', { name: 'Tasks' })).not.toHaveTextContent('Buy milk')
+    expect(screen.getByText('0 active of 1')).toBeInTheDocument()
   })
 })
