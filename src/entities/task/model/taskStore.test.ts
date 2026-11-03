@@ -36,4 +36,18 @@ describe('taskStore', () => {
 
     expect(useTaskStore.getState().tasks.map((task) => task.title)).toEqual(['Second'])
   })
+
+  it('clears only completed tasks', () => {
+    useTaskStore.setState({
+      tasks: [
+        { id: '1', title: 'Buy milk', completed: false, createdAt: 1 },
+        { id: '2', title: 'Walk the dog', completed: true, createdAt: 2 },
+        { id: '3', title: 'Water plants', completed: true, createdAt: 3 },
+      ],
+    })
+
+    useTaskStore.getState().clearCompleted()
+
+    expect(useTaskStore.getState().tasks.map((task) => task.title)).toEqual(['Buy milk'])
+  })
 })
