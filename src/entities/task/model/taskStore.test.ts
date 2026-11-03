@@ -36,4 +36,15 @@ describe('taskStore', () => {
 
     expect(useTaskStore.getState().tasks.map((task) => task.title)).toEqual(['Second'])
   })
+
+  it('renames only the targeted task', () => {
+    const { addTask } = useTaskStore.getState()
+    addTask('First')
+    addTask('Second')
+    const [first] = useTaskStore.getState().tasks
+
+    useTaskStore.getState().renameTask(first?.id ?? '', 'Renamed')
+
+    expect(useTaskStore.getState().tasks.map((task) => task.title)).toEqual(['Renamed', 'Second'])
+  })
 })

@@ -76,4 +76,18 @@ describe('TasksPage', () => {
     expect(screen.getByRole('list', { name: 'Tasks' })).not.toHaveTextContent('Buy milk')
     expect(screen.getByText('0 active of 1')).toBeInTheDocument()
   })
+
+  it('renames a task inline by double-clicking its title', async () => {
+    const user = userEvent.setup()
+    useTaskStore.setState({ tasks: [{ id: '1', title: 'Buy milk', completed: false, createdAt: 1 }] })
+    render(<TasksPage />, { wrapper: withNuqsTestingAdapter() })
+
+    await user.dblClick(screen.getByText('Buy milk'))
+    const input = screen.getByRole('textbox', { name: 'Edit "Buy milk"' })
+    await user.clear(input)
+    await user.type(input, 'Buy oat milk{Enter}')
+
+    expect(screen.getByRole('list', { name: 'Tasks' })).toHaveTextContent('Buy oat milk')
+    expect(screen.getByRole('checkbox', { name: 'Mark "Buy oat milk" as completed' })).toBeInTheDocument()
+  })
 })
