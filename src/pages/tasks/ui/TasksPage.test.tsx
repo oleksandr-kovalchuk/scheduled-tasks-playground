@@ -111,4 +111,20 @@ describe('TasksPage', () => {
     expect(screen.getByRole('list', { name: 'Tasks' })).toHaveTextContent('Buy oat milk')
     expect(screen.getByRole('checkbox', { name: 'Mark "Buy oat milk" as completed' })).toBeInTheDocument()
   })
+
+  it('shows the empty state until the first task is added and again after the last one is deleted', async () => {
+    const user = userEvent.setup()
+    render(<TasksPage />, { wrapper: withNuqsTestingAdapter() })
+    expect(screen.getByRole('heading', { name: 'No tasks yet' })).toBeInTheDocument()
+
+    await user.type(screen.getByRole('textbox', { name: 'Task title' }), 'First task')
+    await user.click(screen.getByRole('button', { name: 'Add' }))
+
+    expect(screen.queryByRole('heading', { name: 'No tasks yet' })).not.toBeInTheDocument()
+    expect(screen.getByRole('list', { name: 'Tasks' })).toHaveTextContent('First task')
+
+    await user.click(screen.getByRole('button', { name: 'Delete "First task"' }))
+
+    expect(screen.getByRole('heading', { name: 'No tasks yet' })).toBeInTheDocument()
+  })
 })
