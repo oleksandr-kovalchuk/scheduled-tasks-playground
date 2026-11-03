@@ -2,7 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Plus } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { useTaskStore } from '@/entities/task/model/taskStore'
-import { addTaskSchema } from '@/features/add-task/model/addTaskSchema'
+import { taskTitleSchema } from '@/entities/task/model/taskTitleSchema'
 import { Button } from '@/shared/ui/Button'
 import { Input } from '@/shared/ui/Input'
 
@@ -14,7 +14,7 @@ export function AddTaskForm() {
     reset,
     formState: { errors },
   } = useForm({
-    resolver: zodResolver(addTaskSchema),
+    resolver: zodResolver(taskTitleSchema),
     defaultValues: { title: '' },
   })
 

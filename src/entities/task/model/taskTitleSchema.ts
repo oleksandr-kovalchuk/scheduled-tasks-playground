@@ -2,7 +2,8 @@ import { z } from 'zod'
 
 export const TASK_TITLE_MAX_LENGTH = 100
 
-export const addTaskSchema = z.object({
+// Shared by every form that sets a task title (create and inline edit), so the rules never drift apart.
+export const taskTitleSchema = z.object({
   title: z
     .string()
     .trim()
@@ -10,4 +11,4 @@ export const addTaskSchema = z.object({
     .max(TASK_TITLE_MAX_LENGTH, `Keep it under ${TASK_TITLE_MAX_LENGTH} characters`),
 })
 
-export type AddTaskValues = z.infer<typeof addTaskSchema>
+export type TaskTitleValues = z.infer<typeof taskTitleSchema>
