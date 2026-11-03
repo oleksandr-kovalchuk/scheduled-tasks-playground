@@ -1,18 +1,18 @@
 # TODO
 
-Беклог для scheduled task. Кожен запуск бере **перший пункт без `[x]`**, для якого ще немає
-відкритого або змердженого PR (гілка `todo/<id>-...`), реалізує його з тестами й відкриває PR.
+Backlog for the scheduled task. Each run takes the **first item without `[x]`** that has no
+open or merged PR yet (branch `todo/<id>-...`), implements it with tests and opens a PR.
 
-Додавай свої ідеї в такому ж форматі: `- [ ] T11: Назва — що саме має працювати`.
-Після мерджу можеш ставити `[x]` вручну, але агент і так орієнтується на PR.
+Add your own ideas in the same format: `- [ ] T11: Title — what exactly should work`.
+You can tick `[x]` manually after merging, but the agent tracks progress by PRs anyway.
 
-- [ ] T1: Видалення задачі — кнопка з іконкою `Trash2` у кожному рядку (слот `actions` у `TaskItem`), нова фіча `features/delete-task`, `aria-label` у форматі `Delete "<title>"`.
-- [ ] T2: Фільтр All / Active / Completed — таби над списком; URL (`?filter=active`) є джерелом правди (nuqs з React-адаптером); невідоме значення → All.
-- [ ] T3: Збереження задач у localStorage — Zustand `persist` middleware, після перезавантаження сторінки задачі залишаються.
-- [ ] T4: Inline-редагування — подвійний клік по назві відкриває інпут; Enter зберігає, Escape скасовує; та сама валідація, що й при створенні (спільну схему винести в `entities/task`).
-- [ ] T5: «Clear completed» — кнопка у футері, видима лише коли є виконані задачі; видаляє всі виконані.
-- [ ] T6: Порожній стан — коли задач немає, замість пустого списку показати іконку, заголовок і підказку додати першу задачу.
-- [ ] T7: Темна тема — перемикач Sun/Moon у хедері, клас `.dark` на `<html>`; за замовчуванням береться `prefers-color-scheme`; токени вже є в `index.css`.
-- [ ] T8: i18n — i18next + react-i18next, мови uk та en, перемикач мови, жодного хардкод-тексту в компонентах.
-- [ ] T9: Дедлайни — опційна дата при створенні задачі, відображення через date-fns з локаллю, прострочені підсвічуються токеном `destructive`.
-- [ ] T10: E2E smoke-тест на Playwright — додати задачу і відмітити її виконаною; скрипт `pnpm test:e2e`.
+- [ ] T1: Delete a task — a button with a `Trash2` icon in every row (the `actions` slot of `TaskItem`), a new `features/delete-task` slice, `aria-label` in the form `Delete "<title>"`.
+- [ ] T2: All / Active / Completed filter — tabs above the list; the URL (`?filter=active`) is the source of truth (nuqs with the React adapter); an unknown value falls back to All.
+- [ ] T3: Persist tasks in localStorage — Zustand `persist` middleware; tasks survive a page reload.
+- [ ] T4: Inline editing — double-clicking a title opens an input; Enter saves, Escape cancels; same validation as on create (move the shared schema to `entities/task`).
+- [ ] T5: "Clear completed" — a button in the footer, visible only when there are completed tasks; removes all of them.
+- [ ] T6: Empty state — when there are no tasks, show an icon, a heading and a hint to add the first task instead of an empty list.
+- [ ] T7: Dark mode — a Sun/Moon toggle in the header, `.dark` class on `<html>`; defaults to `prefers-color-scheme`; the tokens already exist in `index.css`.
+- [ ] T8: i18n — i18next + react-i18next, uk and en, a language switcher, no hardcoded text in components.
+- [ ] T9: Due dates — an optional date when creating a task, formatted with date-fns using the current locale, overdue tasks highlighted with the `destructive` token.
+- [ ] T10: Playwright e2e smoke test — add a task and mark it completed; `pnpm test:e2e` script.

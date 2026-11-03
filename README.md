@@ -1,28 +1,29 @@
 # Scheduled Tasks Playground
 
-Тестовий проєкт, щоб пограти зі **scheduled tasks** у Claude: маленький трекер задач на React + Vite,
-який сам обростає фічами — по одній за запуск.
+A test project for playing with **Claude scheduled tasks**: a small React + Vite task tracker
+that grows new features on its own, one per run.
 
-## Як це працює
+## How it works
 
-1. У `TODO.md` лежить беклог дрібних фіч з ідентифікаторами (`T1`, `T2`, ...).
-2. Scheduled task за розкладом стартує нову сесію Claude, клонує цей репо і бере перший пункт,
-   для якого ще немає PR.
-3. Claude реалізує фічу за правилами з `CLAUDE.md`, пише тести, проганяє `pnpm check`
-   і відкриває PR у гілці `todo/<id>-<slug>`.
-4. Ти рев'юїш і мерджиш PR (або закриваєш і пишеш, що не так).
+1. `TODO.md` holds a backlog of small features with IDs (`T1`, `T2`, ...).
+2. On schedule, a scheduled task starts a fresh Claude session, clones this repo and picks the
+   first item that doesn't have a PR yet.
+3. Claude implements the feature following `CLAUDE.md`, writes tests, runs `pnpm check`
+   and opens a PR from a `todo/<id>-<slug>` branch.
+4. You review and merge the PR (or close it with a comment explaining what's wrong —
+   the next run reads it and tries again).
 
-Щоб змінити поведінку агента — редагуй `TODO.md` (що робити) і `CLAUDE.md` (як писати код).
+To change how the agent behaves, edit `TODO.md` (what to build) and `CLAUDE.md` (how to write code).
 
-## Запуск локально
+## Running locally
 
 ```bash
 pnpm install
 pnpm dev     # http://localhost:5173
-pnpm check   # lint + тести + білд
+pnpm check   # lint + tests + build
 ```
 
-## Стек
+## Stack
 
 React 19 · Vite 8 · TypeScript 7 · Tailwind CSS 4 · Zustand · React Hook Form + Zod ·
 Vitest + Testing Library · oxlint · Feature-Sliced Design.
