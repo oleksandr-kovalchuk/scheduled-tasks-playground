@@ -42,6 +42,27 @@ describe('TasksPage', () => {
     expect(screen.getByText('1 active of 1')).toBeInTheDocument()
   })
 
+  it('shows "Clear completed" once a task is completed and removes completed tasks', async () => {
+    const user = userEvent.setup()
+    useTaskStore.setState({
+      tasks: [
+        { id: '1', title: 'Buy milk', completed: false, createdAt: 1 },
+        { id: '2', title: 'Walk the dog', completed: false, createdAt: 2 },
+      ],
+    })
+    render(<TasksPage />, { wrapper: withNuqsTestingAdapter() })
+    expect(screen.queryByRole('button', { name: 'Clear completed' })).not.toBeInTheDocument()
+
+    await user.click(screen.getByRole('checkbox', { name: 'Mark "Walk the dog" as completed' }))
+    await user.click(screen.getByRole('button', { name: 'Clear completed' }))
+
+    const list = screen.getByRole('list', { name: 'Tasks' })
+    expect(list).toHaveTextContent('Buy milk')
+    expect(list).not.toHaveTextContent('Walk the dog')
+    expect(screen.getByText('1 active of 1')).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: 'Clear completed' })).not.toBeInTheDocument()
+  })
+
   it('filters the list by the selected tab', async () => {
     const user = userEvent.setup()
     useTaskStore.setState({
@@ -75,26 +96,5 @@ describe('TasksPage', () => {
 
     expect(screen.getByRole('list', { name: 'Tasks' })).not.toHaveTextContent('Buy milk')
     expect(screen.getByText('0 active of 1')).toBeInTheDocument()
-  })
-
-  it('shows "Clear completed" once a task is completed and removes completed tasks', async () => {
-    const user = userEvent.setup()
-    useTaskStore.setState({
-      tasks: [
-        { id: '1', title: 'Buy milk', completed: false, createdAt: 1 },
-        { id: '2', title: 'Walk the dog', completed: false, createdAt: 2 },
-      ],
-    })
-    render(<TasksPage />, { wrapper: withNuqsTestingAdapter() })
-    expect(screen.queryByRole('button', { name: 'Clear completed' })).not.toBeInTheDocument()
-
-    await user.click(screen.getByRole('checkbox', { name: 'Mark "Walk the dog" as completed' }))
-    await user.click(screen.getByRole('button', { name: 'Clear completed' }))
-
-    const list = screen.getByRole('list', { name: 'Tasks' })
-    expect(list).toHaveTextContent('Buy milk')
-    expect(list).not.toHaveTextContent('Walk the dog')
-    expect(screen.getByText('1 active of 1')).toBeInTheDocument()
-    expect(screen.queryByRole('button', { name: 'Clear completed' })).not.toBeInTheDocument()
   })
 })
