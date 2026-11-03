@@ -6,6 +6,7 @@ import { DeleteTaskButton } from '@/features/delete-task/ui/DeleteTaskButton'
 import { EditableTaskTitle } from '@/features/edit-task/ui/EditableTaskTitle'
 import { useTaskFilter } from '@/features/filter-tasks/model/useTaskFilter'
 import { ToggleTaskCheckbox } from '@/features/toggle-task/ui/ToggleTaskCheckbox'
+import { TaskListEmptyState } from '@/widgets/task-list/ui/TaskListEmptyState'
 
 type TaskListProps = {
   id?: string
@@ -15,6 +16,11 @@ export function TaskList({ id }: TaskListProps) {
   const tasks = useTaskStore(selectTasks)
   const [filter] = useTaskFilter()
   const visibleTasks = filterTasks(tasks, filter)
+
+  // Keep the id on the empty state so the filter tabs' aria-controls still points at a real element.
+  if (tasks.length === 0) {
+    return <TaskListEmptyState id={id} />
+  }
 
   return (
     <ul id={id} aria-label="Tasks" className="divide-y divide-border">
