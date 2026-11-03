@@ -5,6 +5,19 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tasks · Scheduled Tasks Playground</title>
+    <script>
+      // Apply the theme before the first paint to avoid a flash of the light theme.
+      // Mirrors useApplyTheme: the stored choice (Zustand persist, key "theme") wins over the system preference.
+      ;(function () {
+        var theme = null
+        try {
+          theme = JSON.parse(localStorage.getItem('theme') || 'null')?.state?.theme ?? null
+        } catch (error) {}
+        if (!theme) theme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+        document.documentElement.classList.toggle('dark', theme === 'dark')
+        document.documentElement.style.colorScheme = theme
+      })()
+    </script>
   </head>
   <body>
     <div id="root"></div>

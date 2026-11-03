@@ -1,9 +1,15 @@
 import '@testing-library/jest-dom/vitest'
 import { cleanup } from '@testing-library/react'
-import { afterEach } from 'vitest'
+import { afterEach, beforeEach, vi } from 'vitest'
+import { mockMatchMedia } from '@/test/mockMatchMedia'
+
+beforeEach(() => {
+  mockMatchMedia(false)
+})
 
 afterEach(() => {
   cleanup()
-  // The task store persists itself, so keep tests from leaking state through storage.
+  vi.unstubAllGlobals()
+  // Stores persist themselves, so keep tests from leaking state through storage.
   localStorage.clear()
 })
