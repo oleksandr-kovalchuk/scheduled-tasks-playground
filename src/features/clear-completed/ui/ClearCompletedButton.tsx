@@ -1,8 +1,10 @@
+import { useTranslation } from 'react-i18next'
 import { selectCompletedCount } from '@/entities/task/model/selectors'
 import { useTaskStore } from '@/entities/task/model/taskStore'
 import { Button } from '@/shared/ui/Button'
 
 export function ClearCompletedButton() {
+  const { t } = useTranslation()
   const completedCount = useTaskStore(selectCompletedCount)
   const clearCompleted = useTaskStore((state) => state.clearCompleted)
 
@@ -10,7 +12,7 @@ export function ClearCompletedButton() {
 
   return (
     <Button variant="ghost" size="sm" onClick={clearCompleted}>
-      Clear completed
+      {t('clearCompleted.label')}
     </Button>
   )
 }

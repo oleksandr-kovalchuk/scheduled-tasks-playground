@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { filterTasks } from '@/entities/task/lib/filterTasks'
 import { selectTasks } from '@/entities/task/model/selectors'
 import { useTaskStore } from '@/entities/task/model/taskStore'
@@ -13,6 +14,7 @@ type TaskListProps = {
 }
 
 export function TaskList({ id }: TaskListProps) {
+  const { t } = useTranslation()
   const tasks = useTaskStore(selectTasks)
   const [filter] = useTaskFilter()
   const visibleTasks = filterTasks(tasks, filter)
@@ -23,7 +25,7 @@ export function TaskList({ id }: TaskListProps) {
   }
 
   return (
-    <ul id={id} aria-label="Tasks" className="divide-y divide-border">
+    <ul id={id} aria-label={t('taskList.label')} className="divide-y divide-border">
       {visibleTasks.map((task) => (
         <TaskItem
           key={task.id}

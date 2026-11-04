@@ -1,5 +1,6 @@
+import { useTranslation } from 'react-i18next'
 import { TASK_FILTERS } from '@/entities/task/model/taskFilter'
-import { FILTER_LABELS } from '@/features/filter-tasks/model/filterLabels'
+import { FILTER_LABEL_KEYS } from '@/features/filter-tasks/model/filterLabels'
 import { useTaskFilter } from '@/features/filter-tasks/model/useTaskFilter'
 import { Button } from '@/shared/ui/Button'
 
@@ -9,10 +10,11 @@ type TaskFilterTabsProps = {
 }
 
 export function TaskFilterTabs({ controls }: TaskFilterTabsProps) {
+  const { t } = useTranslation()
   const [filter, setFilter] = useTaskFilter()
 
   return (
-    <div role="tablist" aria-label="Filter tasks" className="flex gap-1">
+    <div role="tablist" aria-label={t('filterTasks.label')} className="flex gap-1">
       {TASK_FILTERS.map((value) => {
         const selected = value === filter
 
@@ -26,7 +28,7 @@ export function TaskFilterTabs({ controls }: TaskFilterTabsProps) {
             aria-controls={controls}
             onClick={() => setFilter(value)}
           >
-            {FILTER_LABELS[value]}
+            {t(FILTER_LABEL_KEYS[value])}
           </Button>
         )
       })}

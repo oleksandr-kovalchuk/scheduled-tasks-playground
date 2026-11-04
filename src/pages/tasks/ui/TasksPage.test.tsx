@@ -138,4 +138,18 @@ describe('TasksPage', () => {
 
     expect(screen.getByRole('button', { name: 'Switch to light theme' })).toBeInTheDocument()
   })
+
+  it('switches the whole page to Ukrainian from the header', async () => {
+    const user = userEvent.setup()
+    useTaskStore.setState({ tasks: [{ id: '1', title: 'Buy milk', completed: false, createdAt: 1 }] })
+    render(<TasksPage />, { wrapper: withNuqsTestingAdapter() })
+
+    await user.selectOptions(screen.getByRole('combobox', { name: 'Language' }), 'uk')
+
+    expect(screen.getByRole('heading', { level: 1, name: 'Завдання' })).toBeInTheDocument()
+    expect(screen.getByRole('tab', { name: 'Активні' })).toBeInTheDocument()
+    expect(screen.getByRole('checkbox', { name: 'Позначити «Buy milk» як виконане' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Видалити «Buy milk»' })).toBeInTheDocument()
+    expect(screen.getByText('Активних: 1 з 1')).toBeInTheDocument()
+  })
 })

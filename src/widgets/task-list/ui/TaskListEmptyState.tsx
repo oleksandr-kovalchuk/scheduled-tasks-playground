@@ -1,11 +1,13 @@
 import { ListTodo } from 'lucide-react'
 import { useId } from 'react'
+import { useTranslation } from 'react-i18next'
 
 type TaskListEmptyStateProps = {
   id?: string
 }
 
 export function TaskListEmptyState({ id }: TaskListEmptyStateProps) {
+  const { t } = useTranslation()
   const headingId = useId()
 
   return (
@@ -16,9 +18,9 @@ export function TaskListEmptyState({ id }: TaskListEmptyStateProps) {
     >
       <ListTodo aria-hidden="true" className="size-10 text-muted-foreground" />
       <h2 id={headingId} className="text-base font-semibold">
-        No tasks yet
+        {t('taskList.emptyTitle')}
       </h2>
-      <p className="text-sm text-muted-foreground">Add your first task using the field above.</p>
+      <p className="text-sm text-muted-foreground">{t('taskList.emptyHint')}</p>
     </section>
   )
 }
