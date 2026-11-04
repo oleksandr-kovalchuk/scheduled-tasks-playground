@@ -12,6 +12,9 @@ that grows new features on its own, one per run.
    and opens a PR from a `todo/<id>-<slug>` branch.
 4. You review and merge the PR (or close it with a comment explaining what's wrong —
    the next run reads it and tries again).
+5. After every merge into `main`, a second scheduled task, started by a GitHub trigger, runs
+   `pnpm check` on `main` and comments ✅ or ❌ on the merged PR. The repo has no CI, so this
+   is the check that `main` stays green.
 
 To change how the agent behaves, edit `TODO.md` (what to build) and `CLAUDE.md` (how to write code).
 
