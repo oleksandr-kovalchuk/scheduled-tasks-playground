@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { useTaskStore } from '@/entities/task/model/taskStore'
 import type { Task } from '@/entities/task/model/types'
 import { Checkbox } from '@/shared/ui/Checkbox'
@@ -7,13 +8,14 @@ type ToggleTaskCheckboxProps = {
 }
 
 export function ToggleTaskCheckbox({ task }: ToggleTaskCheckboxProps) {
+  const { t } = useTranslation()
   const toggleTask = useTaskStore((state) => state.toggleTask)
 
   return (
     <Checkbox
       checked={task.completed}
       onChange={() => toggleTask(task.id)}
-      aria-label={`Mark "${task.title}" as ${task.completed ? 'active' : 'completed'}`}
+      aria-label={t(task.completed ? 'toggleTask.markActive' : 'toggleTask.markCompleted', { title: task.title })}
     />
   )
 }
